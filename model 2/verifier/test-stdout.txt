@@ -1,0 +1,120 @@
+antihack_v0: restored /app/pytest.ini
+antihack_v0: restored /app/integration_tests/conftest.py
+antihack_v0: restored /app/tests/test_05_tools/conftest.py
+antihack_v0: restored /app/tests/conftest.py
+antihack_v0: restored /app/tests/test_02_dxf_graphics/conftest.py
+antihack_v0: restored /app/tests/test_06_math/conftest.py
+antihack_v0: removed /usr/local/lib/python3.12/site-packages/pdm/pep582/sitecustomize.py
+antihack_v0: removed /usr/lib/python3.11/sitecustomize.py
+antihack_v0: removed /etc/python3.11/sitecustomize.py
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: /tests
+plugins: anyio-4.13.0
+collected 2 items
+
+../tests/test_outputs.py F                                               [ 50%]
+../tests/test_tb4_sla.py F                                               [100%]
+
+=================================== FAILURES ===================================
+________________________ test_original_harbor_verifier _________________________
+
+    def test_original_harbor_verifier() -> None:
+      _reset_test_patch_paths()
+      res = subprocess.run(
+          ["bash", '/tests/_orig_harbor_test.sh'],
+          check=False,
+      )
+      assert res.returncode == 0, (
+          f"Original verifier exited with non-zero code {res.returncode}"
+      )
+      reward_txt = pathlib.Path('/logs/verifier/reward.txt')
+      if reward_txt.exists():
+        val = float(reward_txt.read_text(encoding="utf-8").strip() or "0")
+>       assert val >= 1.0, f"Original verifier wrote reward.txt={val}"
+E       AssertionError: Original verifier wrote reward.txt=0.0
+E       assert 0.0 >= 1.0
+
+/tests/test_outputs.py:97: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[03:56:00] === Harbor test.sh started ===
+[03:56:00] Working directory: /app
+[03:56:00] Git HEAD: 6f2d0eada5c585f3a1f03344a78140cc0c9ea42e
+[03:56:00] --- Step 1: Resetting test-patch files to base state ---
+[03:56:00] Reset complete
+[03:56:00] --- Step 2: Applying test patch ---
+[03:56:00] Test patch applied successfully
+[03:56:00] --- Step 3: Detecting junit/output_path support ---
+[03:56:00] Detected: /app/test.sh supports --output_path (junit mode)
+[03:56:00] --- Step 4: Running tests ---
+[03:56:00] Running: bash /app/test.sh --output_path /logs/verifier/base.xml base
+[03:56:19] Base test exit code: 0
+[03:56:19] Running: bash /app/test.sh --output_path /logs/verifier/new.xml new
+[03:56:22] New test exit code: 1
+[03:56:22] Base junit XML: present, parsed (testcases=7501 child_fail=0 child_err=0 attr_fail=0 attr_err=0 suites=1) -> result=0
+[03:56:22] New junit XML: present, parsed (testcases=131 child_fail=58 child_err=0 attr_fail=58 attr_err=0 suites=1) -> result=1
+[03:56:22] --- Step 5: Result ---
+[03:56:22] REWARD=0 (base=PASS, new=FAIL)
+[03:56:22] === Harbor test.sh finished ===
+________________________ test_tb4_sla_attrib_placements ________________________
+
+    def test_tb4_sla_attrib_placements():
+        doc, target = tb4_build_drawing()
+    
+        # Correctness check before timing
+>       placements = attrib_placements(target)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/tests/test_tb4_sla.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/ezdxf/attsync.py:91: in attrib_placements
+    _walk(layout, block.block_record, Matrix44(), [], placements)
+src/ezdxf/attsync.py:144: in _walk
+    _walk(
+src/ezdxf/attsync.py:144: in _walk
+    _walk(
+src/ezdxf/attsync.py:144: in _walk
+    _walk(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+layout = <ezdxf.layouts.blocklayout.BlockLayout object at 0x7f2990085940>
+block_record = <class 'ezdxf.entities.blockrecord.BlockRecord'> BLOCK_RECORD(#2F)
+matrix = Matrix44((1.0, 0.0, 0.0, 0.0), (0.0, 1.0, 0.0, 0.0), (0.0, 0.0, 1.0, 0.0), (0.0, 0.0, 0.0, 1.0))
+chain = ['33', '39', '42']
+placements = [AttribPlacement(tag='TTAG', text='TVAL', location=Vec3(21.0, 22.0, 0.0), rotation=0.0, height=2.5, insert=<class 'ezdxf.entities.insert.Insert'> INSERT(#6D))]
+
+    def _walk(
+        layout: BaseLayout,
+        block_record: BlockRecord,
+        matrix: Matrix44,
+        chain: list[str],
+        placements: list[AttribPlacement],
+    ) -> None:
+        doc = layout.doc
+        if doc is None:
+            return
+        target_key = (
+            layout.layout_key
+            if hasattr(layout, "layout_key")
+            else layout.block_record.dxf.handle
+        )
+        for entity in list(doc.chain_layouts_and_blocks()):
+            if entity.dxf.owner != target_key:
+                continue
+            if not isinstance(entity, Insert) or not entity.is_alive:
+                continue
+            referenced = entity.block()
+            if referenced is None:
+                continue
+            handle = referenced.block_record.dxf.handle
+            if handle in chain:
+                continue
+>           for element, m in _grid(entity, matrix):
+                ^^^^^^^^^^
+E           TypeError: cannot unpack non-iterable Insert object
+
+src/ezdxf/attsync.py:129: TypeError
+=========================== short test summary info ============================
+FAILED ../tests/test_outputs.py::test_original_harbor_verifier - AssertionErr...
+FAILED ../tests/test_tb4_sla.py::test_tb4_sla_attrib_placements - TypeError: ...
+============================== 2 failed in 22.16s ==============================

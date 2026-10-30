@@ -1,0 +1,27 @@
+{
+    "task": {
+        "path": "/vol/projects/t_f2bfca97e4f5f043"
+    },
+    "trial_name": "t_f2bfca97e4f5f043__xarJdzo",
+    "trials_dir": "jobs/2026-10-27__03-40-44",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "anthropic/claude-opus-4-8",
+        "kwargs": {
+            "parser_name": "xml",
+            "llm_call_kwargs": {
+                "max_tokens": 4096
+            }
+        }
+    },
+    "environment": {
+        "type": "docker",
+        "extra_docker_compose": [
+            "/work/pipeline/overlay-oracle.yaml"
+        ]
+    },
+    "extra_instruction_paths": [
+        "/work/pipeline/response-size-guidance.txt"
+    ],
+    "job_id": "e7dada26-686e-491f-96b3-1195e0d0f2c6"
+}

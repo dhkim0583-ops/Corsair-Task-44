@@ -1,0 +1,5 @@
+ A profiling/attsync_benchmark.py
+ M src/ezdxf/attsync.py
+ M src/ezdxf/entities/insert.py
+ M src/ezdxf/layouts/blocklayout.py
+ M src/ezdxf/sections/blocks.py

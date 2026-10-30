@@ -1,0 +1,82 @@
+{
+    "schema_version": 3,
+    "created_at": "2026-10-27T03:55:10.689666Z",
+    "harbor": {
+        "version": "0.21.0",
+        "is_editable": false
+    },
+    "n_concurrent_trials": 4,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "VerifierOutputParseError",
+            "ModelNotFoundError",
+            "ApiUsageLimitError",
+            "AgentAuthenticationError",
+            "AgentTimeoutError",
+            "RewardFileEmptyError",
+            "AgentSafetyRefusalError",
+            "RewardFileNotFoundError",
+            "VerifierTimeoutError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "schema_version": 2,
+            "task": {
+                "name": "t_f2bfca97e4f5f043",
+                "type": "local",
+                "digest": "sha256:5422e3b45c62a2987eb97fa1ac51462f1a2381ee34300ac5a1456dfbf0cb817d",
+                "path": "/vol/projects/t_f2bfca97e4f5f043"
+            },
+            "install_only": false,
+            "timeout_multiplier": 1.0,
+            "extra_instructions": [
+                {
+                    "path": "/work/pipeline/response-size-guidance.txt",
+                    "digest": "sha256:f93532cdb0faa3355dc0cfdea3d6f12faf65447f0ddecc1e4e0d0025b49f8f7f"
+                }
+            ],
+            "agent": {
+                "name": "terminus-2",
+                "model_name": "gemini/gemini-3.1-flash-lite",
+                "skills": [],
+                "resume_trajectory": false,
+                "extra_allowed_hosts": [],
+                "kwargs": {
+                    "parser_name": "xml",
+                    "llm_call_kwargs": {
+                        "max_tokens": 4096
+                    }
+                },
+                "mcp_servers": []
+            },
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [
+                    "/work/pipeline/overlay-oracle.yaml"
+                ],
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "extra_docker_compose": [
+                {
+                    "path": "/work/pipeline/overlay-oracle.yaml",
+                    "digest": "sha256:612e08afbf8f78e21163f1f846b55d1132d4100d900bac1263bc163a76584f05"
+                }
+            ],
+            "verifier": {
+                "disable": false,
+                "environment_mode": "shared"
+            }
+        }
+    ]
+}

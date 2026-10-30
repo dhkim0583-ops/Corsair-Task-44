@@ -1,0 +1,1207 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="58" skipped="0" tests="131" time="1.992" timestamp="2026-10-27T03:56:19.973325+00:00" hostname="de886aecc575"><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_sync_adds_an_attrib_for_each_definition" time="0.006" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_added_attrib_carries_the_default_text" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attribs_follow_the_order_of_the_definitions" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_constant_definition_gets_no_attrib" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_of_a_constant_definition_is_removed" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_definition_without_tag_is_ignored" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_content_text_of_an_existing_attrib_is_preserved" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_a_new_default_does_not_overwrite_an_edited_attrib" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_existing_attrib_stays_the_same_entity" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_extended_data_of_an_existing_attrib_survives" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_properties_of_an_existing_attrib_follow_the_definition" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_property_absent_in_the_definition_is_discarded" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_added_attrib_matches_a_newly_created_reference" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_placement_follows_rotation_and_scaling" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_placement_follows_a_block_base_point" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_placement_follows_non_uniform_scaling" time="0.003" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_placement_follows_mirroring" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_placement_follows_the_extrusion" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_aligned_definition_keeps_its_alignment" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_multiline_definition_creates_a_multiline_attrib" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_multiline_attrib_carries_the_content_text" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_added_multiline_attrib_carries_the_full_default" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_multiline_content_of_an_attrib_is_kept_in_full" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_becomes_multiline_when_its_definition_does" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_becomes_single_line_when_its_definition_does" time="0.003" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_definition_turned_constant_removes_the_attrib" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ac36de0&gt;
+
+    def test_definition_turned_constant_removes_the_attrib(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:428: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b6b2840&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_definition_turned_back_non_constant_recreates_the_attrib" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b6b2180&gt;
+
+    def test_definition_turned_back_non_constant_recreates_the_attrib(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:441: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b6b60f0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_without_a_definition_is_removed" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_first_of_two_definitions_with_the_same_tag_counts" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_definitions_differing_only_in_case_are_one_definition" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_duplicate_definition_tags_settle_after_one_sync" time="0.003" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_first_attrib_of_a_repeated_tag_is_kept" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_tags_are_matched_without_regard_to_case" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_takes_the_spelling_of_the_definition" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_tags_differing_only_in_case_are_repetitions" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_locked_attrib_keeps_its_location" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_locked_attrib_follows_the_definition_otherwise" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_locked_attrib_keeps_its_align_point" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_locked_attrib_stays_locked" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_added_attrib_takes_the_locked_flag_of_its_definition" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_locked_attrib_keeps_its_place_when_the_reference_is_transformed" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_location_of_an_unlocked_attrib_is_reset" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_insert_sync_leaves_the_other_references_alone" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_block_sync_covers_modelspace_and_paperspace" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b7db8f0&gt;
+
+    def test_block_sync_covers_modelspace_and_paperspace(doc):
+        block = add_block(doc)
+        model = doc.modelspace().add_blockref("FLAG", (0, 0))
+        paper = doc.layout().add_blockref("FLAG", (0, 0))
+    
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:676: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b6ad940&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_attrib_belongs_to_the_layout_of_its_reference" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b6ac7d0&gt;
+
+    def test_attrib_belongs_to_the_layout_of_its_reference(doc):
+        block = add_block(doc)
+        paper = doc.layout().add_blockref("FLAG", (0, 0))
+    
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:686: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b92d2b0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_block_sync_covers_references_inside_block_definitions" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016acaecf0&gt;
+
+    def test_block_sync_covers_references_inside_block_definitions(doc):
+        block = add_block(doc)
+        other = doc.blocks.new("OTHER")
+        nested = other.add_blockref("FLAG", (0, 0))
+    
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:696: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b6ba900&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_block_sync_leaves_references_of_other_blocks_alone" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b6bbe60&gt;
+
+    def test_block_sync_leaves_references_of_other_blocks_alone(doc):
+        block = add_block(doc)
+        add_block(doc, name="OTHER", tags=("OTHER_TAG",))
+        other = doc.modelspace().add_blockref("OTHER", (0, 0))
+    
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:706: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b6b5730&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reference_of_an_undefined_block_is_left_alone" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_block_records_that_it_has_attribute_definitions" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ac35fd0&gt;
+
+    def test_block_records_that_it_has_attribute_definitions(doc):
+        block = add_block(doc)
+    
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:726: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016acfa8d0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_block_records_that_it_has_no_attribute_definitions" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016acfad50&gt;
+
+    def test_block_records_that_it_has_no_attribute_definitions(doc):
+        block = add_block(doc)
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:733: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ad6e120&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_report_counts_added_attribs" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad7b8f0&gt;
+
+    def test_report_counts_added_attribs(doc):
+        block = add_block(doc, tags=("A", "B"))
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+        doc.modelspace().add_blockref("FLAG", (1, 0))
+    
+&gt;       report = block.sync_attribs()
+                 ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:744: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ac9d7f0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_report_counts_removed_attribs" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ac9fe90&gt;
+
+    def test_report_counts_removed_attribs(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+        insert.add_attrib("GHOST", "gone")
+    
+&gt;       report = block.sync_attribs()
+                 ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:756: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b7d8d70&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_report_counts_updated_attribs" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_report_counts_a_moved_attrib" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_block_flag_is_updated_without_any_reference" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b18dee0&gt;
+
+    def test_block_flag_is_updated_without_any_reference(doc):
+        block = add_block(doc, name="NOREFS")
+    
+&gt;       report = block.sync_attribs()
+                 ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:791: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b12c440&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_report_changed_is_false_without_changes" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b17f0b0&gt;
+
+    def test_report_changed_is_false_without_changes(doc):
+        block = add_block(doc)
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:801: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b6b5ca0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_second_sync_reports_no_change" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b6afe00&gt;
+
+    def test_second_sync_reports_no_change(doc):
+        block = add_block(doc, tags=("A", "B"))
+        insert = doc.modelspace().add_blockref(
+            "FLAG", (3, 4), dxfattribs={"rotation": 33, "xscale": 1.5}
+        )
+        insert.add_attrib("B", "value")
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ac357c0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_second_sync_leaves_the_document_unchanged" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016adcba70&gt;
+
+    def test_second_sync_leaves_the_document_unchanged(doc):
+        block = add_block(doc, tags=("A", "B"))
+        insert = doc.modelspace().add_blockref(
+            "FLAG", (3, 4), dxfattribs={"rotation": 33, "yscale": 2}
+        )
+        insert.add_attrib("B", "value")
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:830: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b6b1a60&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_lists_the_affected_references" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_detects_a_stale_property" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b191280&gt;
+
+    def test_out_of_sync_references_detects_a_stale_property(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:852: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b1df350&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_detects_a_wrong_order" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b708f80&gt;
+
+    def test_out_of_sync_references_detects_a_wrong_order(doc):
+        block = add_block(doc, tags=("A", "B"))
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:861: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b979040&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_detects_a_repeated_tag" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b86b950&gt;
+
+    def test_out_of_sync_references_detects_a_repeated_tag(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:870: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ad17dd0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_detects_an_unmatched_attrib" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad16f30&gt;
+
+    def test_out_of_sync_references_detects_an_unmatched_attrib(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:879: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ad27650&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_detects_stale_multiline_content" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b920a10&gt;
+
+    def test_out_of_sync_references_detects_stale_multiline_content(doc):
+        block = doc.blocks.new("ML")
+        attdef = block.add_attdef("TEXT", (0, 0), text="default")
+        mtext = MText.new(dxfattribs={"insert": (0, 0), "char_height": 0.5})
+        mtext.text = "default"
+        attdef.set_mtext(mtext)
+        insert = doc.modelspace().add_blockref("ML", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:892: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016adfa840&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_detects_a_differing_tag_spelling" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad4bcb0&gt;
+
+    def test_out_of_sync_references_detects_a_differing_tag_spelling(doc):
+        block = add_block(doc, tags=("Name",))
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:903: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b713e60&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_a_locked_attrib_in_its_own_place_is_in_sync" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b64bd40&gt;
+
+    def test_a_locked_attrib_in_its_own_place_is_in_sync(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:912: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ac62240&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_covers_paperspace_and_nested_references" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_ignores_foreign_and_undefined_references" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_is_empty_when_in_sync" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016adc07a0&gt;
+
+    def test_out_of_sync_references_is_empty_when_in_sync(doc):
+        block = add_block(doc)
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:949: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b87d400&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_accepts_an_edited_content" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b1909b0&gt;
+
+    def test_out_of_sync_references_accepts_an_edited_content(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:957: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b9811c0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_out_of_sync_references_changes_nothing" time="0.008" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_transfers_the_value_of_the_attrib" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_renames_the_definition" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_removes_an_attrib_that_already_carries_the_new_tag" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_reports_the_dropped_attrib" time="0.002"><failure message="AttributeError: 'NoneType' object has no attribute 'removed'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad0ae70&gt;
+
+    def test_rename_reports_the_dropped_attrib(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+        insert.add_attrib("NAME", "keep me")
+        insert.add_attrib("TITLE", "stale")
+    
+        report = block.rename_attdef("NAME", "TITLE")
+    
+&gt;       assert report.removed == 1
+               ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'removed'
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1014: AttributeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_reports_the_changed_attrib" time="0.002"><failure message="AttributeError: 'NoneType' object has no attribute 'updated'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b7da030&gt;
+
+    def test_rename_reports_the_changed_attrib(doc):
+        block = add_block(doc)
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+        insert.sync_attribs()
+    
+        report = block.rename_attdef("NAME", "TITLE")
+    
+&gt;       assert report.updated == 1
+               ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'updated'
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1026: AttributeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_accepts_a_change_of_spelling" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_reaches_every_reference" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b64a510&gt;
+
+    def test_rename_reaches_every_reference(doc):
+        block = add_block(doc)
+        model = doc.modelspace().add_blockref("FLAG", (0, 0))
+        other = doc.blocks.new("OTHER")
+        nested = other.add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1045: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b709070&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_delete_reaches_every_reference" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b70a4e0&gt;
+
+    def test_delete_reaches_every_reference(doc):
+        block = add_block(doc, tags=("A", "B"))
+        model = doc.modelspace().add_blockref("FLAG", (0, 0))
+        paper = doc.layout().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1058: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ac9cbc0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_accepts_a_source_tag_in_another_case" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_of_an_undefined_tag_raises_key_error" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_to_an_existing_tag_raises_value_error" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_to_a_tag_differing_only_in_case_raises_value_error" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_sync_after_a_rename_reports_nothing" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ac9dbe0&gt;
+
+    def test_sync_after_a_rename_reports_nothing(doc):
+        block = add_block(doc, tags=("A", "B"))
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b978c50&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_to_an_empty_tag_raises_value_error" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_a_rejected_rename_changes_nothing" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b7094f0&gt;
+
+    def test_a_rejected_rename_changes_nothing(doc):
+        block = add_block(doc, tags=("A", "B"))
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1124: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b9283b0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_delete_removes_definition_and_attribs" time="0.002"><failure message="AttributeError: 'NoneType' object has no attribute 'removed'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad0bb60&gt;
+
+    def test_delete_removes_definition_and_attribs(doc):
+        block = add_block(doc, tags=("A", "B"))
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+        insert.sync_attribs()
+    
+        report = block.delete_attdef("A")
+    
+        assert block.get_attdef("A") is None
+        assert tags_of(insert) == ["B"]
+&gt;       assert report.removed == 1
+               ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'removed'
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1142: AttributeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_delete_accepts_a_tag_in_another_case" time="0.003" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_accepts_tags_in_another_case" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_delete_of_an_undefined_tag_raises_key_error" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_a_rejected_delete_changes_nothing" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b64c9e0&gt;
+
+    def test_a_rejected_delete_changes_nothing(doc):
+        block = add_block(doc, tags=("A", "B"))
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1177: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ad7b800&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_a_rejected_rename_of_an_unknown_tag_changes_nothing" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad7a270&gt;
+
+    def test_a_rejected_rename_of_an_unknown_tag_changes_nothing(doc):
+        block = add_block(doc, tags=("A", "B"))
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1189: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ad6c980&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_delete_of_a_constant_definition_leaves_attribs_alone" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_changes_the_order_of_the_definitions" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_changes_the_order_of_the_attribs" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b1dfe60&gt;
+
+    def test_reorder_changes_the_order_of_the_attribs(doc):
+        block = add_block(doc, tags=("A", "B", "C"))
+        insert = doc.modelspace().add_blockref("FLAG", (0, 0))
+        paper = doc.layout().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1221: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b12caa0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_keeps_the_other_block_content_in_place" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_of_a_block_without_definitions_is_a_no_op" time="0.004"><failure message="AttributeError: 'NoneType' object has no attribute 'changed'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b92dbe0&gt;
+
+    def test_reorder_of_a_block_without_definitions_is_a_no_op(doc):
+        block = doc.blocks.new("PLAIN")
+        block.add_line((0, 0), (1, 1))
+        doc.modelspace().add_blockref("PLAIN", (0, 0))
+        before = export(doc)
+    
+        report = block.reorder_attdefs([])
+    
+&gt;       assert report.changed is False
+               ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'changed'
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1261: AttributeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_with_a_missing_tag_raises_value_error" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_with_an_unknown_tag_raises_value_error" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_with_a_repeated_tag_raises_value_error" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_with_case_folded_duplicates_raises_value_error" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_sync_after_a_reorder_reports_nothing" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad25bb0&gt;
+
+    def test_sync_after_a_reorder_reports_nothing(doc):
+        block = add_block(doc, tags=("A", "B", "C"))
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1298: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ac63350&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_a_rejected_reorder_changes_nothing" time="0.002"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016ac62000&gt;
+
+    def test_a_rejected_reorder_changes_nothing(doc):
+        block = add_block(doc, tags=("A", "B"))
+        doc.modelspace().add_blockref("FLAG", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1309: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016ad16b10&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_document_sync_covers_every_block" time="0.002"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad16e40&gt;
+
+    def test_document_sync_covers_every_block(doc):
+        add_block(doc, name="ONE", tags=("A",))
+        add_block(doc, name="TWO", tags=("B",))
+        first = doc.modelspace().add_blockref("ONE", (0, 0))
+        second = doc.modelspace().add_blockref("TWO", (5, 0))
+    
+&gt;       report = doc.blocks.sync_attribs()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1325: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016ad6daf0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_document_sync_covers_paperspace_and_nested_references" time="0.002"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b1906e0&gt;
+
+    def test_document_sync_covers_paperspace_and_nested_references(doc):
+        add_block(doc)
+        other = doc.blocks.new("OTHER")
+        nested = other.add_blockref("FLAG", (0, 0))
+        paper = doc.layout().add_blockref("FLAG", (0, 0))
+        model = doc.modelspace().add_blockref("FLAG", (0, 0))
+    
+&gt;       report = doc.blocks.sync_attribs()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1340: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b18c140&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_document_sync_aggregates_removals_and_updates" time="0.002"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad6d760&gt;
+
+    def test_document_sync_aggregates_removals_and_updates(doc):
+        first = add_block(doc, name="ONE", tags=("A",))
+        second = add_block(doc, name="TWO", tags=("B",))
+        one = doc.modelspace().add_blockref("ONE", (0, 0))
+        two = doc.modelspace().add_blockref("TWO", (5, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1353: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016ad799a0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_document_sync_is_idempotent" time="0.002"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016bbf4e30&gt;
+
+    def test_document_sync_is_idempotent(doc):
+        add_block(doc, name="ONE", tags=("A",))
+        doc.modelspace().add_blockref("ONE", (0, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1370: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016ad14bf0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_block_with_only_constant_definitions_records_no_attributes" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b710c80&gt;
+
+    def test_block_with_only_constant_definitions_records_no_attributes(doc):
+        block = doc.blocks.new("CONST_ONLY")
+        block.add_attdef("FIXED", (0, 0), text="c").is_const = True
+        doc.modelspace().add_blockref("CONST_ONLY", (0, 0))
+    
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1382: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b6b5940&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_rename_keeps_multiline_content_and_identity" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_document_sync_leaves_a_reference_of_an_undefined_block_alone" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b13d880&gt;
+
+    def test_document_sync_leaves_a_reference_of_an_undefined_block_alone(doc):
+        add_block(doc)
+        valid = doc.modelspace().add_blockref("FLAG", (0, 0))
+        ghost = doc.modelspace().add_blockref("MISSING", (5, 0))
+        ghost.add_attrib("KEEP", "value")
+    
+&gt;       report = doc.blocks.sync_attribs()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1419: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b124050&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_added_attrib_is_stored_in_the_document" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_document_is_valid_after_sync" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b6b4d40&gt;
+
+    def test_document_is_valid_after_sync(doc):
+        add_block(doc, tags=("A", "B"))
+        doc.modelspace().add_blockref("FLAG", (0, 0), dxfattribs={"rotation": 20})
+    
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1443: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016ad24e30&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_synced_attribs_survive_a_round_trip" time="0.010" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_of_a_reference_in_the_modelspace" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016ac9cb30&gt;
+
+    def test_placement_of_a_reference_in_the_modelspace(doc):
+        block = doc.blocks.new("P")
+        block.add_attdef("T", (1, 0), text="t")
+        doc.modelspace().add_blockref("P", (10, 20))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1471: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b1c2690&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_follows_the_transformation_of_the_reference" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b91cec0&gt;
+
+    def test_placement_follows_the_transformation_of_the_reference(doc):
+        block = doc.blocks.new("P")
+        block.add_attdef("T", (1, 0), text="t")
+        doc.modelspace().add_blockref(
+            "P", (0, 0), dxfattribs={"rotation": 90, "xscale": 2, "yscale": 2, "zscale": 2}
+        )
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1482: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b70bb00&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_of_a_reference_inside_another_block" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b978a10&gt;
+
+    def test_placement_of_a_reference_inside_another_block(doc):
+        block = doc.blocks.new("INNER")
+        block.add_attdef("T", (1, 0), text="t")
+        host = doc.blocks.new("OUTER")
+        host.add_blockref("INNER", (1, 1))
+        doc.modelspace().add_blockref(
+            "OUTER", (100, 0), dxfattribs={"rotation": 90, "xscale": 2, "yscale": 2, "zscale": 2}
+        )
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1495: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b649250&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_covers_the_modelspace_and_the_paperspace" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b7128a0&gt;
+
+    def test_placement_covers_the_modelspace_and_the_paperspace(doc):
+        block = doc.blocks.new("P")
+        block.add_attdef("T", (2, 0), text="t")
+        doc.modelspace().add_blockref("P", (0, 0))
+        doc.layout().add_blockref("P", (50, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1505: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b6b7680&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_of_every_element_of_a_grid" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016ac89280&gt;
+
+    def test_placement_of_every_element_of_a_grid(doc):
+        block = doc.blocks.new("G")
+        block.add_attdef("T", (1, 0), text="t")
+        grid = doc.modelspace().add_blockref(
+            "G", (0, 0), dxfattribs={"xscale": 3, "yscale": 3, "zscale": 3}
+        )
+        grid.grid(size=(2, 2), spacing=(10, 20))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1520: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b10c680&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_of_a_block_no_layout_reaches" time="0.021"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b13ca70&gt;
+
+    def test_placement_of_a_block_no_layout_reaches(doc):
+        block = doc.blocks.new("INNER")
+        block.add_attdef("T", (1, 0), text="t")
+        orphan = doc.blocks.new("ORPHAN")
+        orphan.add_blockref("INNER", (0, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1535: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b127fe0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_does_not_re_enter_a_block_on_the_path" time="0.002"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b10f8c0&gt;
+
+    def test_placement_does_not_re_enter_a_block_on_the_path(doc):
+        block = doc.blocks.new("A")
+        block.add_attdef("T", (1, 0), text="t")
+        block.add_blockref("A", (5, 0))
+        other = doc.blocks.new("B")
+        other.add_blockref("A", (0, 0))
+        block.add_blockref("B", (0, 0))
+        doc.modelspace().add_blockref("A", (0, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1552: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b13e6f0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_carries_the_content_text_and_its_reference" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b127b00&gt;
+
+    def test_placement_carries_the_content_text_and_its_reference(doc):
+        block = doc.blocks.new("P")
+        block.add_attdef("T", (1, 0), text="t")
+        insert = doc.modelspace().add_blockref("P", (0, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1561: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b12ec00&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_of_a_block_without_references" time="0.001" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_composes_rotation_and_height" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b7dbcb0&gt;
+
+    def test_placement_composes_rotation_and_height(doc):
+        block = doc.blocks.new("I")
+        block.add_attdef("T", (1, 0), text="t", dxfattribs={"height": 1, "rotation": 10})
+        host = doc.blocks.new("O")
+        host.add_blockref(
+            "I", (0, 0), dxfattribs={"rotation": 20, "xscale": 2, "yscale": 2, "zscale": 2}
+        )
+        doc.modelspace().add_blockref(
+            "O", (0, 0), dxfattribs={"rotation": 30, "xscale": 3, "yscale": 3, "zscale": 3}
+        )
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1587: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b6ac470&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_multiline_definition_in_an_old_document_gives_a_single_line_attrib" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_multiline_definition_in_a_new_document_keeps_the_embedded_text" time="0.002" /><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_follows_the_tab_order_of_the_layouts" time="0.002"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b17f200&gt;
+
+    def test_placement_follows_the_tab_order_of_the_layouts(doc):
+        block = doc.blocks.new("P")
+        block.add_attdef("T", (1, 0), text="t")
+        doc.modelspace().add_blockref("P", (0, 0))
+        alpha = doc.layouts.new("Alpha")
+        beta = doc.layouts.new("Beta")
+        alpha.add_blockref("P", (10, 0))
+        beta.add_blockref("P", (20, 0))
+        alpha.dxf.taborder, beta.dxf.taborder = beta.dxf.taborder, alpha.dxf.taborder
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1637: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b1270e0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_of_every_path_that_reaches_the_block" time="0.002"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016b10f920&gt;
+
+    def test_placement_of_every_path_that_reaches_the_block(doc):
+        block = doc.blocks.new("T")
+        block.add_attdef("T", (1, 0), text="t")
+        left = doc.blocks.new("L")
+        left.add_blockref("T", (10, 0))
+        right = doc.blocks.new("R")
+        right.add_blockref("T", (20, 0))
+        top = doc.blocks.new("TOP")
+        top.add_blockref("L", (100, 0))
+        top.add_blockref("R", (200, 0))
+        top.add_blockref("TOP", (0, 0))
+        doc.modelspace().add_blockref("TOP", (1000, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1654: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016adc8680&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_of_one_reference_reached_by_two_hosts" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016ad08140&gt;
+
+    def test_placement_of_one_reference_reached_by_two_hosts(doc):
+        block = doc.blocks.new("T")
+        block.add_attdef("T", (1, 0), text="t")
+        middle = doc.blocks.new("MID")
+        middle.add_blockref("T", (10, 0))
+        doc.modelspace().add_blockref("MID", (100, 0))
+        doc.modelspace().add_blockref("MID", (200, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1666: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016acf8f50&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_through_extrusion_mirroring_and_non_uniform_scaling" time="0.001"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016adcbe30&gt;
+
+    def test_placement_through_extrusion_mirroring_and_non_uniform_scaling(doc):
+        block = doc.blocks.new("I")
+        block.add_attdef("T", (1, 2), text="t", dxfattribs={"height": 1})
+        host = doc.blocks.new("O")
+        host.add_blockref(
+            "I",
+            (3, 0, 4),
+            dxfattribs={"xscale": -1, "yscale": 2, "zscale": 3, "rotation": 35},
+        )
+        doc.modelspace().add_blockref(
+            "O",
+            (10, 5, 2),
+            dxfattribs={
+                "extrusion": (0, 0, -1),
+                "rotation": 25,
+                "xscale": 2,
+                "yscale": 2,
+                "zscale": 2,
+            },
+        )
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1694: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b6b00b0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_reorder_keeps_the_attribs_it_moves" time="0.001"><failure message="TypeError: sync_block_references() got an unexpected keyword argument 'apply'">doc = &lt;ezdxf.document.Drawing object at 0x7f016b124350&gt;
+
+    def test_reorder_keeps_the_attribs_it_moves(doc):
+        block = doc.blocks.new("B")
+        attdef = block.add_attdef("A", (0, 0), text="a")
+        block.add_attdef("B", (0, 1), text="b")
+        mtext = MText.new(dxfattribs={"insert": (0, 0), "char_height": 0.5})
+        mtext.text = "first\\Psecond"
+        attdef.set_mtext(mtext)
+        insert = doc.modelspace().add_blockref("B", (0, 0))
+&gt;       block.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1711: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.layouts.blocklayout.BlockLayout object at 0x7f016b13dfd0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       return sync_block_references(self, apply=apply)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: sync_block_references() got an unexpected keyword argument 'apply'
+
+src/ezdxf/layouts/blocklayout.py:136: TypeError</failure></testcase><testcase classname="tests.test_04_dxf_high_level_structs.test_432_attribute_sync_64e0da" name="test_placement_follows_the_entity_order_inside_a_block" time="0.002"><failure message="NameError: name 'AttribSyncReport' is not defined">doc = &lt;ezdxf.document.Drawing object at 0x7f016acb0bf0&gt;
+
+    def test_placement_follows_the_entity_order_inside_a_block(doc):
+        block = doc.blocks.new("T")
+        block.add_attdef("A", (1, 0), text="a")
+        block.add_attdef("B", (2, 0), text="b")
+        host = doc.blocks.new("H")
+        host.add_blockref("T", (100, 0))
+        host.add_line((0, 0), (1, 1))
+        host.add_blockref("T", (200, 0))
+        host.add_circle((0, 0), 1)
+        host.add_blockref("T", (300, 0))
+        doc.modelspace().add_blockref("H", (0, 0))
+&gt;       doc.blocks.sync_attribs()
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1737: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ezdxf.sections.blocks.BlocksSection object at 0x7f016b17c1d0&gt;
+apply = True
+
+    def sync_attribs(self, apply: bool = True) -&gt; "AttribSyncReport":
+        from ezdxf.attsync import sync_block_references
+&gt;       report = AttribSyncReport()
+                 ^^^^^^^^^^^^^^^^
+E       NameError: name 'AttribSyncReport' is not defined
+
+src/ezdxf/sections/blocks.py:306: NameError</failure></testcase></testsuite></testsuites>

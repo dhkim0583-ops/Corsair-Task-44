@@ -1,0 +1,17 @@
+.cache
+.coverage
+.eggs
+.idea
+.tox
+.vscode
+__pycache__
+makefile
+tox.ini
+build
+dist
+docs/build
+fonts/*.json
+fonts/shapefiles
+profiling/logs
+venv
+wheels

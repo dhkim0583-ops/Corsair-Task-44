@@ -1,0 +1,31 @@
++ export GIT_CONFIG_GLOBAL=/tmp/harbor-capture-gitconfig
++ GIT_CONFIG_GLOBAL=/tmp/harbor-capture-gitconfig
++ git config --global --add safe.directory '*'
++ id
++ git --version
++ ROOT=
++ command -v git
++ '[' -f /.harbor-capture/manifest.tsv ']'
++ for d in /app /app/* /workspace /src
++ '[' -d /app ']'
++ git -C /app rev-parse --git-dir
++ ROOT=/app
++ break
++ '[' -z /app ']'
++ '[' -z /app ']'
++ echo /app
++ git -C /app add -A -N
++ BASE=6f2d0eada5c585f3a1f03344a78140cc0c9ea42e
++ DIFF_FROM=HEAD
++ '[' -n 6f2d0eada5c585f3a1f03344a78140cc0c9ea42e ']'
++ git -C /app rev-parse --verify --quiet '6f2d0eada5c585f3a1f03344a78140cc0c9ea42e^{commit}'
++ DIFF_FROM=6f2d0eada5c585f3a1f03344a78140cc0c9ea42e
++ echo 6f2d0eada5c585f3a1f03344a78140cc0c9ea42e
++ git -C /app diff --binary 6f2d0eada5c585f3a1f03344a78140cc0c9ea42e
++ git -C /app status --porcelain
++ git -C /app diff --stat 6f2d0eada5c585f3a1f03344a78140cc0c9ea42e
++ git -C /app log --oneline 6f2d0eada5c585f3a1f03344a78140cc0c9ea42e..HEAD
+++ wc -c
++ echo 'capture finished, patch bytes: 5695'
+capture finished, patch bytes: 5695
++ '[' 0 = 1 ']'

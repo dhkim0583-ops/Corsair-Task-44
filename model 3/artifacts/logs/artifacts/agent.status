@@ -1,0 +1,6 @@
+ A benchmark_attsync.py
+ M src/ezdxf/attsync.py
+ M src/ezdxf/entities/insert.py
+ M src/ezdxf/layouts/blocklayout.py
+ M src/ezdxf/sections/blocks.py
+ A tests/test_attsync_gate.py

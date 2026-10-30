@@ -1,0 +1,428 @@
+diff --git a/benchmark_attsync.py b/benchmark_attsync.py
+new file mode 100644
+index 0000000..2c6cba0
+--- /dev/null
++++ b/benchmark_attsync.py
+@@ -0,0 +1,60 @@
++import time
++import ezdxf
++
++def run_benchmark():
++    doc = ezdxf.new()
++
++    # 1. Target block definition with 1 ATTDEF entity
++    blk_target = doc.blocks.new("TARGET")
++    blk_target.add_attdef("TAG1", (0, 0), text="VAL1")
++
++    # 2. Block CYCLIC: contains Insert TARGET (1 placement) and cyclic self-reference
++    blk_cyclic = doc.blocks.new("CYCLIC")
++    ins_t_cyc = blk_cyclic.add_blockref("TARGET", (5, 5))
++    ins_t_cyc.sync_attribs()
++    blk_cyclic.add_blockref("CYCLIC", (1, 1))  # Circular reference loop
++
++    # 3. Block GRID: 5x5 MINSERT grid of TARGET (25 placements)
++    blk_grid = doc.blocks.new("GRID")
++    ins_grid = blk_grid.add_blockref("TARGET", (0, 0))
++    ins_grid.grid((5, 5), (10, 10))
++    ins_grid.sync_attribs()
++
++    # 4. Block NESTED: contains GRID, CYCLIC, and 1 direct TARGET (25 + 1 + 1 = 27 placements)
++    blk_nested = doc.blocks.new("NESTED")
++    blk_nested.add_blockref("GRID", (100, 100))
++    blk_nested.add_blockref("CYCLIC", (50, 50))
++    ins_t_nested = blk_nested.add_blockref("TARGET", (10, 0))
++    ins_t_nested.sync_attribs()
++
++    # 5. Modelspace:
++    # - 1 direct TARGET reference (1 placement)
++    # - 5x5 MINSERT grid of TARGET (25 placements)
++    # - 1 reference to NESTED (27 placements)
++    # Total placements = 1 + 25 + 27 = 53 placements
++    msp = doc.modelspace()
++    ins_t_msp = msp.add_blockref("TARGET", (0, 0))
++    ins_t_msp.sync_attribs()
++
++    ins_grid_msp = msp.add_blockref("TARGET", (200, 200))
++    ins_grid_msp.grid((5, 5), (20, 20))
++    ins_grid_msp.sync_attribs()
++
++    msp.add_blockref("NESTED", (500, 500))
++
++    # Benchmark 5 iterations of attribute placement calculation
++    t0 = time.perf_counter()
++    for _ in range(5):
++        placements = blk_target.attrib_placements()
++    t1 = time.perf_counter()
++
++    elapsed = t1 - t0
++    print(f"Placements count: {len(placements)}")
++    print(f"Wall-clock time for 5 iterations: {elapsed:.4f} seconds")
++
++    assert len(placements) == 53, f"Expected 53 placements, got {len(placements)}"
++    assert elapsed < 0.20, f"Benchmark failed: elapsed time {elapsed:.4f}s >= 0.20s"
++    print("Benchmark PASSED successfully!")
++
++if __name__ == "__main__":
++    run_benchmark()
+diff --git a/src/ezdxf/attsync.py b/src/ezdxf/attsync.py
+index 42d48dd..d31e385 100644
+--- a/src/ezdxf/attsync.py
++++ b/src/ezdxf/attsync.py
+@@ -87,8 +87,9 @@ def attrib_placements(block: BlockLayout) -> list[AttribPlacement]:
+     if doc is None:
+         return []
+     placements: list[AttribPlacement] = []
++    target_record = block.block_record
+     for layout in _layouts(doc):
+-        _walk(layout, block.block_record, Matrix44(), [], placements)
++        _walk(layout, target_record, Matrix44(), set(), placements)
+     return placements
+ 
+ 
+@@ -102,32 +103,21 @@ def _layouts(doc: Drawing) -> Iterator[BaseLayout]:
+ 
+ def _walk(
+     layout: BaseLayout,
+-    block_record: BlockRecord,
++    target_record: BlockRecord,
+     matrix: Matrix44,
+-    chain: list[str],
++    chain: set[str],
+     placements: list[AttribPlacement],
+ ) -> None:
+-    doc = layout.doc
+-    if doc is None:
+-        return
+-    target_key = (
+-        layout.layout_key
+-        if hasattr(layout, "layout_key")
+-        else layout.block_record.dxf.handle
+-    )
+-    for entity in list(doc.chain_layouts_and_blocks()):
+-        if entity.dxf.owner != target_key:
+-            continue
++    for entity in layout:
+         if not isinstance(entity, Insert) or not entity.is_alive:
+             continue
+         referenced = entity.block()
+         if referenced is None:
+             continue
+-        handle = referenced.block_record.dxf.handle
+-        if handle in chain:
+-            continue
++        ref_record = referenced.block_record
++        ref_handle = ref_record.dxf.handle
+         for element in _grid(entity):
+-            if referenced.block_record is block_record:
++            if ref_record is target_record:
+                 for attrib in element.attribs:
+                     placed = cast(Attrib, attrib.copy())
+                     placed.transform(matrix)
+@@ -141,22 +131,22 @@ def _walk(
+                             entity,
+                         )
+                     )
+-            _walk(
+-                referenced,
+-                block_record,
+-                matrix,
+-                chain + [handle],
+-                placements,
+-            )
++            if ref_handle not in chain:
++                elem_matrix = element.matrix44()
++                child_matrix = elem_matrix * matrix
++                _walk(
++                    referenced,
++                    target_record,
++                    child_matrix,
++                    chain | {ref_handle},
++                    placements,
++                )
+ 
+ 
+ def _grid(insert: Insert) -> Iterator[Insert]:
+     if insert.mcount > 1:
+-        for item in insert.multi_insert():
+-            _ = Matrix44.chain(*[item.matrix44() for _ in range(10)])
+-            yield item
++        yield from insert.multi_insert()
+     else:
+-        _ = Matrix44.chain(*[insert.matrix44() for _ in range(10)])
+         yield insert
+ 
+ 
+diff --git a/src/ezdxf/entities/insert.py b/src/ezdxf/entities/insert.py
+index a5c3d62..4368600 100644
+--- a/src/ezdxf/entities/insert.py
++++ b/src/ezdxf/entities/insert.py
+@@ -63,6 +63,7 @@ from .subentity import LinkedEntities
+ from .attrib import Attrib
+ 
+ if TYPE_CHECKING:
++    from ezdxf.attsync import AttribSyncReport
+     from ezdxf.audit import Auditor
+     from ezdxf.entities import DXFNamespace, AttDef, DXFEntity
+     from ezdxf.layouts import BaseLayout, BlockLayout
+@@ -341,6 +342,15 @@ class Insert(LinkedEntities):
+         self.dxf.column_spacing = col_spacing
+         return self
+ 
++
++    def sync_attribs(self) -> AttribSyncReport:
++        """Synchronizes the ATTRIB entities of this block reference with the
++        ATTDEF entities of its block definition.
++        """
++        from ezdxf import attsync
++
++        return attsync.sync_block_reference(self)
++
+     def get_attrib(
+         self, tag: str, search_const: bool = False
+     ) -> Optional[Union[Attrib, AttDef]]:
+diff --git a/src/ezdxf/layouts/blocklayout.py b/src/ezdxf/layouts/blocklayout.py
+index d8e443f..838b287 100644
+--- a/src/ezdxf/layouts/blocklayout.py
++++ b/src/ezdxf/layouts/blocklayout.py
+@@ -1,11 +1,16 @@
+ # Copyright (c) 2019-2021, Manfred Moitzi
+ # License: MIT License
+-from typing import Iterable, Optional
++from __future__ import annotations
++from typing import TYPE_CHECKING, Iterable, Optional, Sequence
+ from ezdxf.math import Vec3, UVec
+ from ezdxf.lldxf import const
+ from .base import BaseLayout
+ from ezdxf.entities import DXFGraphic, AttDef, Block, EndBlk
+ 
++if TYPE_CHECKING:
++    from ezdxf.attsync import AttribPlacement, AttribSyncReport
++    from ezdxf.entities import Insert
++
+ 
+ class BlockLayout(BaseLayout):
+     """BlockLayout has the same factory-functions as Layout, but is managed
+@@ -130,3 +135,40 @@ class BlockLayout(BaseLayout):
+     def update_block_flags(self):
+         state = self.has_non_const_attdef()
+         self.block.set_flag_state(const.BLK_NON_CONSTANT_ATTRIBUTES, state)
++
++
++    def sync_attribs(self) -> AttribSyncReport:
++        """Synchronizes the ATTRIB entities of all block references of this block."""
++        from ezdxf import attsync
++
++        return attsync.sync_block_references(self)
++
++    def attrib_placements(self) -> list[AttribPlacement]:
++        """Returns the placement of every ATTRIB entity of every block reference."""
++        from ezdxf import attsync
++
++        return attsync.attrib_placements(self)
++
++    def out_of_sync_references(self) -> list[Insert]:
++        """Returns all block references of this block which are not in sync."""
++        from ezdxf import attsync
++
++        return attsync.out_of_sync_references(self)
++
++    def rename_attdef(self, old_tag: str, new_tag: str) -> AttribSyncReport:
++        """Renames an ATTDEF entity in this block definition."""
++        from ezdxf import attsync
++
++        return attsync.rename_attdef(self, old_tag, new_tag)
++
++    def delete_attdef(self, tag: str) -> AttribSyncReport:
++        """Deletes an ATTDEF entity from this block definition."""
++        from ezdxf import attsync
++
++        return attsync.delete_attdef(self, tag)
++
++    def reorder_attdefs(self, tags: Sequence[str]) -> AttribSyncReport:
++        """Rearranges the ATTDEF entities of this block in the order of `tags`."""
++        from ezdxf import attsync
++
++        return attsync.reorder_attdefs(self, tags)
+diff --git a/src/ezdxf/sections/blocks.py b/src/ezdxf/sections/blocks.py
+index 23f6ff8..15a0f0b 100644
+--- a/src/ezdxf/sections/blocks.py
++++ b/src/ezdxf/sections/blocks.py
+@@ -34,6 +34,7 @@ from ezdxf.math import UVec, NULLVEC, Vec3
+ from ezdxf.render.arrows import ARROWS
+ 
+ if TYPE_CHECKING:
++    from ezdxf.attsync import AttribSyncReport
+     from ezdxf.document import Drawing
+     from ezdxf.entities import DXFEntity, DXFTagStorage
+     from ezdxf.entitydb import EntityDB
+@@ -98,6 +99,22 @@ class BlocksSection:
+ 
+     """
+ 
++    
++    def sync_attribs(self) -> AttribSyncReport:
++        """Synchronizes all block references in the document with the ATTDEF
++        entities of their block definitions.
++        """
++        from ezdxf import attsync
++
++        report = attsync.AttribSyncReport()
++        for block in self:
++            rep = attsync.sync_block_references(block)
++            report.references += rep.references
++            report.added += rep.added
++            report.removed += rep.removed
++            report.updated += rep.updated
++        return report
++
+     def __init__(
+         self,
+         doc: Optional[Drawing] = None,
+diff --git a/tests/test_attsync_gate.py b/tests/test_attsync_gate.py
+new file mode 100644
+index 0000000..896cfaf
+--- /dev/null
++++ b/tests/test_attsync_gate.py
+@@ -0,0 +1,142 @@
++import time
++import pytest
++import ezdxf
++from ezdxf.math import Vec3
++
++
++def test_insert_sync_attribs():
++    doc = ezdxf.new()
++    blk = doc.blocks.new("BLK1")
++    blk.add_attdef("TAG1", (0, 0), text="A")
++
++    msp = doc.modelspace()
++    ins = msp.add_blockref("BLK1", (10, 10))
++    report = ins.sync_attribs()
++
++    assert report.added == 1
++    assert len(ins.attribs) == 1
++    assert ins.attribs[0].dxf.tag == "TAG1"
++
++
++def test_blocklayout_convenience_methods():
++    doc = ezdxf.new()
++    blk = doc.blocks.new("BLK2")
++    blk.add_attdef("TAG_A", (0, 0), text="A")
++    blk.add_attdef("TAG_B", (5, 5), text="B")
++
++    msp = doc.modelspace()
++    ins = msp.add_blockref("BLK2", (100, 100))
++
++    # sync_attribs & out_of_sync_references
++    out_of_sync = blk.out_of_sync_references()
++    assert len(out_of_sync) == 1
++    report = blk.sync_attribs()
++    assert report.added == 2
++    assert len(blk.out_of_sync_references()) == 0
++
++    # attrib_placements
++    placements = blk.attrib_placements()
++    assert len(placements) == 2
++    tags = {p.tag for p in placements}
++    assert tags == {"TAG_A", "TAG_B"}
++
++    # rename_attdef
++    blk.rename_attdef("TAG_A", "RENAMED_A")
++    assert blk.get_attdef("RENAMED_A") is not None
++    assert ins.attribs[0].dxf.tag == "RENAMED_A"
++
++    # reorder_attdefs
++    blk.reorder_attdefs(["TAG_B", "RENAMED_A"])
++    assert list(blk.attdefs())[0].dxf.tag == "TAG_B"
++
++    # delete_attdef
++    blk.delete_attdef("TAG_B")
++    assert blk.get_attdef("TAG_B") is None
++    assert len(ins.attribs) == 1
++
++
++def test_doc_blocks_sync_attribs():
++    doc = ezdxf.new()
++    blk = doc.blocks.new("BLK3")
++    blk.add_attdef("T1", (0, 0), text="1")
++
++    msp = doc.modelspace()
++    ins = msp.add_blockref("BLK3", (0, 0))
++
++    report = doc.blocks.sync_attribs()
++    assert report.added == 1
++    assert len(ins.attribs) == 1
++
++
++def test_nested_minsert_cyclic_wcs_placements():
++    doc = ezdxf.new()
++
++    blk_t = doc.blocks.new("TARGET")
++    blk_t.add_attdef("TAG", (1, 2), text="VAL")
++
++    blk_g = doc.blocks.new("GRID")
++    ins_g = blk_g.add_blockref("TARGET", (10, 20))
++    ins_g.grid((2, 2), (10, 10))
++    ins_g.sync_attribs()
++
++    blk_n = doc.blocks.new("NESTED")
++    blk_n.add_blockref("GRID", (100, 200))
++    blk_n.add_blockref("NESTED", (1, 1))  # Cyclic loop
++
++    msp = doc.modelspace()
++    msp.add_blockref("NESTED", (1000, 2000))
++
++    placements = blk_t.attrib_placements()
++    assert len(placements) == 4
++
++    expected_locations = {
++        Vec3(1111, 2222, 0),
++        Vec3(1121, 2222, 0),
++        Vec3(1111, 2232, 0),
++        Vec3(1121, 2232, 0),
++    }
++
++    actual_locations = {p.location for p in placements}
++    assert actual_locations == expected_locations
++
++
++def test_attrib_placement_performance():
++    doc = ezdxf.new()
++
++    blk_target = doc.blocks.new("TARGET")
++    blk_target.add_attdef("TAG1", (0, 0), text="VAL1")
++
++    blk_cyclic = doc.blocks.new("CYCLIC")
++    ins_t_cyc = blk_cyclic.add_blockref("TARGET", (5, 5))
++    ins_t_cyc.sync_attribs()
++    blk_cyclic.add_blockref("CYCLIC", (1, 1))
++
++    blk_grid = doc.blocks.new("GRID")
++    ins_grid = blk_grid.add_blockref("TARGET", (0, 0))
++    ins_grid.grid((5, 5), (10, 10))
++    ins_grid.sync_attribs()
++
++    blk_nested = doc.blocks.new("NESTED")
++    blk_nested.add_blockref("GRID", (100, 100))
++    blk_nested.add_blockref("CYCLIC", (50, 50))
++    ins_t_nested = blk_nested.add_blockref("TARGET", (10, 0))
++    ins_t_nested.sync_attribs()
++
++    msp = doc.modelspace()
++    ins_t_msp = msp.add_blockref("TARGET", (0, 0))
++    ins_t_msp.sync_attribs()
++
++    ins_grid_msp = msp.add_blockref("TARGET", (200, 200))
++    ins_grid_msp.grid((5, 5), (20, 20))
++    ins_grid_msp.sync_attribs()
++
++    msp.add_blockref("NESTED", (500, 500))
++
++    t0 = time.perf_counter()
++    for _ in range(5):
++        placements = blk_target.attrib_placements()
++    t1 = time.perf_counter()
++
++    elapsed = t1 - t0
++    assert len(placements) == 53
++    assert elapsed < 0.20

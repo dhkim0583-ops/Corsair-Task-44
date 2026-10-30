@@ -1,0 +1,19 @@
+[03:46:12] === Harbor test.sh started ===
+[03:46:12] Working directory: /app
+[03:46:12] Git HEAD: 6f2d0eada5c585f3a1f03344a78140cc0c9ea42e
+[03:46:12] --- Step 1: Resetting test-patch files to base state ---
+[03:46:12] Reset complete
+[03:46:12] --- Step 2: Applying test patch ---
+[03:46:12] Test patch applied successfully
+[03:46:12] --- Step 3: Detecting junit/output_path support ---
+[03:46:12] Detected: /app/test.sh supports --output_path (junit mode)
+[03:46:12] --- Step 4: Running tests ---
+[03:46:12] Running: bash /app/test.sh --output_path /logs/verifier/base.xml base
+[03:46:30] Base test exit code: 0
+[03:46:30] Running: bash /app/test.sh --output_path /logs/verifier/new.xml new
+[03:46:32] New test exit code: 0
+[03:46:32] Base junit XML: present, parsed (testcases=7501 child_fail=0 child_err=0 attr_fail=0 attr_err=0 suites=1) -> result=0
+[03:46:32] New junit XML: present, parsed (testcases=131 child_fail=0 child_err=0 attr_fail=0 attr_err=0 suites=1) -> result=0
+[03:46:32] --- Step 5: Result ---
+[03:46:32] REWARD=1 (base=PASS, new=PASS)
+[03:46:32] === Harbor test.sh finished ===

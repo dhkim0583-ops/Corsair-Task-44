@@ -1,0 +1,28 @@
+{
+    "environment": {
+        "type": "docker",
+        "extra_docker_compose": [
+            "/work/pipeline/overlay-oracle.yaml"
+        ]
+    },
+    "agents": [
+        {
+            "name": "terminus-2",
+            "model_name": "anthropic/claude-opus-4-8",
+            "kwargs": {
+                "parser_name": "xml",
+                "llm_call_kwargs": {
+                    "max_tokens": 4096
+                }
+            }
+        }
+    ],
+    "tasks": [
+        {
+            "path": "/vol/projects/t_f2bfca97e4f5f043"
+        }
+    ],
+    "extra_instruction_paths": [
+        "/work/pipeline/response-size-guidance.txt"
+    ]
+}

@@ -1,0 +1,27 @@
+{
+    "task": {
+        "path": "/vol/projects/t_f2bfca97e4f5f043"
+    },
+    "trial_name": "t_f2bfca97e4f5f043__GZNzLwQ",
+    "trials_dir": "jobs/2026-10-27__03-55-10",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "gemini/gemini-3.1-flash-lite",
+        "kwargs": {
+            "parser_name": "xml",
+            "llm_call_kwargs": {
+                "max_tokens": 4096
+            }
+        }
+    },
+    "environment": {
+        "type": "docker",
+        "extra_docker_compose": [
+            "/work/pipeline/overlay-oracle.yaml"
+        ]
+    },
+    "extra_instruction_paths": [
+        "/work/pipeline/response-size-guidance.txt"
+    ],
+    "job_id": "9e716a55-a3b1-4b0b-b4be-93e185308e78"
+}

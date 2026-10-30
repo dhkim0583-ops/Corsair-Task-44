@@ -1,0 +1,268 @@
+diff --git a/profiling/attsync_benchmark.py b/profiling/attsync_benchmark.py
+new file mode 100644
+index 0000000..d721524
+--- /dev/null
++++ b/profiling/attsync_benchmark.py
+@@ -0,0 +1,63 @@
++import time
++import ezdxf
++from ezdxf.attsync import attrib_placements
++
++
++def build():
++    doc = ezdxf.new()
++    msp = doc.modelspace()
++
++    # LEAF block with one ATTDEF (the target block)
++    leaf = doc.blocks.new("LEAF")
++    leaf.add_attdef("TAG", insert=(0, 0), text="X")
++
++    # MID block references LEAF a few times
++    mid = doc.blocks.new("MID")
++    mid.add_blockref("LEAF", (0, 0))
++    mid.add_blockref("LEAF", (1, 0))
++    mid.add_blockref("LEAF", (0, 1))
++
++    # cyclic blocks: A references B, B references A and LEAF
++    a = doc.blocks.new("A")
++    b = doc.blocks.new("B")
++    a.add_blockref("B", (0, 0))
++    a.add_blockref("LEAF", (2, 2))
++    b.add_blockref("A", (0, 0))  # circular
++    b.add_blockref("LEAF", (3, 3))
++
++    # modelspace: nested MID reference
++    msp.add_blockref("MID", (10, 10))  # 3 LEAF placements
++
++    # 5x5 MINSERT grid of LEAF -> 25 placements
++    grid = msp.add_blockref("LEAF", (0, 0))
++    grid.grid(size=(5, 5), spacing=(2, 2))
++
++    # direct references and via A (which hits the cycle, 1 LEAF via A, 1 via B)
++    msp.add_blockref("A", (50, 50))  # A->LEAF (1), A->B->LEAF (1), B->A blocked by cycle
++    msp.add_blockref("MID", (100, 0))  # 3 more
++    msp.add_blockref("MID", (0, 100))  # 3 more
++
++    # extra direct LEAF refs to reach 53
++    for i in range(17):
++        msp.add_blockref("LEAF", (i * 5, 200))
++
++    return doc, leaf
++
++
++def main():
++    doc, leaf = build()
++    doc.blocks.sync_attribs()
++    placements = attrib_placements(leaf)
++    print("placements:", len(placements))
++
++    start = time.perf_counter()
++    for _ in range(5):
++        attrib_placements(leaf)
++    elapsed = time.perf_counter() - start
++    print(f"5 iterations: {elapsed:.4f}s")
++    assert elapsed < 0.20, f"too slow: {elapsed:.4f}s"
++    print("PASS")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/src/ezdxf/attsync.py b/src/ezdxf/attsync.py
+index 42d48dd..ad130b3 100644
+--- a/src/ezdxf/attsync.py
++++ b/src/ezdxf/attsync.py
+@@ -87,8 +87,9 @@ def attrib_placements(block: BlockLayout) -> list[AttribPlacement]:
+     if doc is None:
+         return []
+     placements: list[AttribPlacement] = []
++    index = _build_index(doc)
+     for layout in _layouts(doc):
+-        _walk(layout, block.block_record, Matrix44(), [], placements)
++        _walk(layout, block.block_record, Matrix44(), [], placements, index)
+     return placements
+ 
+ 
+@@ -98,27 +99,30 @@ def _layouts(doc: Drawing) -> Iterator[BaseLayout]:
+         layout = doc.layout(name)
+         if layout is not doc.modelspace():
+             yield layout
++def _build_index(doc):
++    index = {}
++    for entity in doc.chain_layouts_and_blocks():
++        if not isinstance(entity, Insert) or not entity.is_alive:
++            continue
++        index.setdefault(entity.dxf.owner, []).append(entity)
++    return index
+ 
+ 
+ def _walk(
+-    layout: BaseLayout,
+-    block_record: BlockRecord,
+-    matrix: Matrix44,
+-    chain: list[str],
+-    placements: list[AttribPlacement],
+-) -> None:
+-    doc = layout.doc
+-    if doc is None:
+-        return
++    layout,
++    block_record,
++    matrix,
++    chain,
++    placements,
++    index,
++):
+     target_key = (
+         layout.layout_key
+         if hasattr(layout, "layout_key")
+         else layout.block_record.dxf.handle
+     )
+-    for entity in list(doc.chain_layouts_and_blocks()):
+-        if entity.dxf.owner != target_key:
+-            continue
+-        if not isinstance(entity, Insert) or not entity.is_alive:
++    for entity in index.get(target_key, ()):  # type: ignore
++        if not entity.is_alive:
+             continue
+         referenced = entity.block()
+         if referenced is None:
+@@ -126,8 +130,11 @@ def _walk(
+         handle = referenced.block_record.dxf.handle
+         if handle in chain:
+             continue
+-        for element in _grid(entity):
+-            if referenced.block_record is block_record:
++        new_chain = chain + [handle]
++        is_target = referenced.block_record is block_record
++        for element, element_matrix in _grid(entity):
++            m = element_matrix @ matrix
++            if is_target:
+                 for attrib in element.attribs:
+                     placed = cast(Attrib, attrib.copy())
+                     placed.transform(matrix)
+@@ -141,24 +148,23 @@ def _walk(
+                             entity,
+                         )
+                     )
++                    placed.destroy()
+             _walk(
+                 referenced,
+                 block_record,
+-                matrix,
+-                chain + [handle],
++                m,
++                new_chain,
+                 placements,
++                index,
+             )
+ 
+ 
+-def _grid(insert: Insert) -> Iterator[Insert]:
++def _grid(insert):
+     if insert.mcount > 1:
+         for item in insert.multi_insert():
+-            _ = Matrix44.chain(*[item.matrix44() for _ in range(10)])
+-            yield item
++            yield item, item.matrix44()
+     else:
+-        _ = Matrix44.chain(*[insert.matrix44() for _ in range(10)])
+-        yield insert
+-
++        yield insert, insert.matrix44()
+ 
+ def sync_block_reference(insert: Insert) -> AttribSyncReport:
+     """Synchronizes the ATTRIB entities of a single block reference with the ATTDEF
+diff --git a/src/ezdxf/entities/insert.py b/src/ezdxf/entities/insert.py
+index a5c3d62..907ef45 100644
+--- a/src/ezdxf/entities/insert.py
++++ b/src/ezdxf/entities/insert.py
+@@ -277,6 +277,14 @@ class Insert(LinkedEntities):
+             return self.doc.blocks.get(self.dxf.name)
+         return None
+ 
++    def sync_attribs(self):
++        """Synchronizes the ATTRIB entities of this block reference with the
++        ATTDEF entities of its block definition.
++        """
++        from ezdxf import attsync
++
++        return attsync.sync_block_reference(self)
++
+     def is_xref(self) -> bool:
+         """Return ``True`` if the INSERT entity represents a XREF or XREF_OVERLAY."""
+         block = self.block()
+diff --git a/src/ezdxf/layouts/blocklayout.py b/src/ezdxf/layouts/blocklayout.py
+index d8e443f..7fc23f9 100644
+--- a/src/ezdxf/layouts/blocklayout.py
++++ b/src/ezdxf/layouts/blocklayout.py
+@@ -130,3 +130,51 @@ class BlockLayout(BaseLayout):
+     def update_block_flags(self):
+         state = self.has_non_const_attdef()
+         self.block.set_flag_state(const.BLK_NON_CONSTANT_ATTRIBUTES, state)
++
++    def sync_attribs(self):
++        """Synchronizes the ATTRIB entities of all block references of this block
++        in the document with the ATTDEF entities of the block definition.
++        """
++        from ezdxf import attsync
++
++        return attsync.sync_block_references(self)
++
++    def attrib_placements(self):
++        """Returns the placement of every ATTRIB entity of every block reference
++        of this block which is reachable from a layout of the document.
++        """
++        from ezdxf import attsync
++
++        return attsync.attrib_placements(self)
++
++    def out_of_sync_references(self):
++        """Returns all block references of this block which are not in sync with
++        the ATTDEF entities of the block definition.
++        """
++        from ezdxf import attsync
++
++        return attsync.out_of_sync_references(self)
++
++    def rename_attdef(self, old_tag: str, new_tag: str):
++        """Renames the ATTDEF entity `old_tag` to `new_tag` and transfers the
++        content of the matching ATTRIB entity of every block reference.
++        """
++        from ezdxf import attsync
++
++        return attsync.rename_attdef(self, old_tag, new_tag)
++
++    def delete_attdef(self, tag: str):
++        """Deletes the ATTDEF entity `tag` and the matching ATTRIB entity from
++        every block reference in the document.
++        """
++        from ezdxf import attsync
++
++        return attsync.delete_attdef(self, tag)
++
++    def reorder_attdefs(self, tags):
++        """Rearranges the ATTDEF entities in the order of `tags` and applies the
++        new order to the ATTRIB entities of every block reference.
++        """
++        from ezdxf import attsync
++
++        return attsync.reorder_attdefs(self, tags)
+diff --git a/src/ezdxf/sections/blocks.py b/src/ezdxf/sections/blocks.py
+index 23f6ff8..f0176f2 100644
+--- a/src/ezdxf/sections/blocks.py
++++ b/src/ezdxf/sections/blocks.py
+@@ -458,6 +458,14 @@ class BlocksSection:
+         for name in trash:
+             self.__delitem__(name)
+ 
++    def sync_attribs(self):
++        """Synchronizes the ATTRIB entities of all block references in the
++        document with the ATTDEF entities of their block definitions.
++        """
++        from ezdxf import attsync
++
++        return attsync.sync_document(self.doc)
++
+     def audit(self, auditor: Auditor) -> None:
+         """Audit and repair BLOCKS section.
+ 

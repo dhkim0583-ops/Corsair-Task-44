@@ -1,0 +1,7 @@
+ benchmark_attsync.py             |  60 +++++++++++++++++
+ src/ezdxf/attsync.py             |  48 ++++++-------
+ src/ezdxf/entities/insert.py     |  10 +++
+ src/ezdxf/layouts/blocklayout.py |  44 +++++++++++-
+ src/ezdxf/sections/blocks.py     |  17 +++++
+ tests/test_attsync_gate.py       | 142 +++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 291 insertions(+), 30 deletions(-)

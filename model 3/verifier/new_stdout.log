@@ -1,0 +1,37 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: /app
+configfile: pytest.ini
+plugins: anyio-4.13.0
+collected 131 items
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py . [  0%]
+........................................................................ [ 55%]
+..............................................F...........               [100%]
+
+=================================== FAILURES ===================================
+_____________ test_placement_does_not_re_enter_a_block_on_the_path _____________
+
+doc = <ezdxf.document.Drawing object at 0x7feb2dd6ecc0>
+
+    def test_placement_does_not_re_enter_a_block_on_the_path(doc):
+        block = doc.blocks.new("A")
+        block.add_attdef("T", (1, 0), text="t")
+        block.add_blockref("A", (5, 0))
+        other = doc.blocks.new("B")
+        other.add_blockref("A", (0, 0))
+        block.add_blockref("B", (0, 0))
+        doc.modelspace().add_blockref("A", (0, 0))
+        doc.blocks.sync_attribs()
+    
+>       assert placements_of(block) == [("T", "t", Vec3(1, 0, 0))]
+E       AssertionError: assert [('T', 't', V...0, 0.0, 0.0))] == [('T', 't', V...0, 0.0, 0.0))]
+E         
+E         Left contains 2 more items, first extra item: ('T', 't', Vec3(6.0, 0.0, 0.0))
+E         Use -v to get more diff
+
+tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py:1554: AssertionError
+------------------ generated xml file: /logs/verifier/new.xml ------------------
+=========================== short test summary info ============================
+FAILED tests/test_04_dxf_high_level_structs/test_432_attribute_sync_64e0da.py::test_placement_does_not_re_enter_a_block_on_the_path
+======================== 1 failed, 130 passed in 0.53s =========================
